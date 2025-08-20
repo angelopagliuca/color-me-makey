@@ -28,21 +28,6 @@ public class BlockManager : MonoBehaviour
         {
             SaveCurrentBlock();
         }
-
-        if (Keyboard.current.numpad0Key.wasPressedThisFrame)
-        {
-            LoadBlockToScene(0);
-        }
-
-        if (Keyboard.current.numpad1Key.wasPressedThisFrame)
-        {
-            LoadBlockToScene(1);
-        }
-
-        if (Keyboard.current.numpad2Key.wasPressedThisFrame)
-        {
-            LoadBlockToScene(2);
-        }
     }
 
     public void ResetBlock()
@@ -129,4 +114,6 @@ public class BlockManager : MonoBehaviour
         }
         LoadBlockToScene(metadata.index);
     }
+
+    public void DeleteBlockByIndex() { }
 }
