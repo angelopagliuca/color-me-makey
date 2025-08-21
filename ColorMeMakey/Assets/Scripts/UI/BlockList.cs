@@ -9,6 +9,8 @@ public class BlockListUI : MonoBehaviour
 
     [SerializeField] private BlockManager manager;
 
+    [SerializeField] private Color selectedColor = Color.white;
+
     private void Start()
     {
         PopulateList();
@@ -28,6 +30,11 @@ public class BlockListUI : MonoBehaviour
         {
             BlockElement item = Instantiate(blockElemPrefab, transform).GetComponent<BlockElement>();
             item.InitiateBlockElem(manager, meta);
+
+            if (meta.index == manager.selectedIndex)
+                item.ChangeColor(selectedColor);
+            else
+                item.ChangeColor(Color.black);
         }
     }
 }

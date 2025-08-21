@@ -31,13 +31,14 @@ public class BlockDataHandler
     {
         lineOffsets.Clear();
 
+        // First line always starts at 0
+        if (new FileInfo(filePath).Length > 0)
+            lineOffsets.Add(0);
+
         using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
         {
             long position = 0;
             int b;
-
-            // First line starts at 0
-            lineOffsets.Add(0);
 
             while ((b = fs.ReadByte()) != -1)
             {
@@ -56,22 +57,24 @@ public class BlockDataHandler
     }
 
     // Append a new block JSON line and update offsets
-    public void AddBlock(BlockData block)
+    public int AddBlock(BlockData block)
     {
         string json = JsonUtility.ToJson(block, false);
-
-        // Get the offset before writing
-        long offset = new FileInfo(filePath).Length;
 
         using (FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.Read))
         using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
         {
-            sw.WriteLine(json); // writes JSON + newline
-            sw.Flush();
-        }
+            long offset = fs.Position;   // <-- this is where the new line starts
 
-        lineOffsets.Add(offset);
-        Debug.Log($"Appended block at offset {offset}, total blocks: {lineOffsets.Count}");
+            sw.WriteLine(json);
+            sw.Flush();
+
+            lineOffsets.Add(offset);
+
+            int index = lineOffsets.Count - 1;
+            Debug.Log($"Appended block at offset {offset} index {index}, total blocks: {lineOffsets.Count}");
+            return index;
+        }
     }
 
     // Load a block by its zero-based index

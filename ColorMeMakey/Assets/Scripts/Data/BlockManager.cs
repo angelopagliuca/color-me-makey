@@ -11,23 +11,14 @@ public class BlockManager : MonoBehaviour
     [HideInInspector]
     public BlockMetaHandler metaHandler;
 
+    public int selectedIndex = -1;
+
     private void Awake()
     {
         dataHandler = new BlockDataHandler();
         metaHandler = new BlockMetaHandler();
-    }
 
-    private void Update()
-    {
-        if (Keyboard.current.rKey.wasPressedThisFrame)
-        {
-            ResetBlock();
-        }
-
-        if (Keyboard.current.sKey.wasPressedThisFrame)
-        {
-            SaveCurrentBlock();
-        }
+        selectedIndex = -1;
     }
 
     public void ResetBlock()
@@ -48,6 +39,8 @@ public class BlockManager : MonoBehaviour
                 }
             }
         }
+
+        selectedIndex = -1;
     }
 
     public void SaveCurrentBlock()
@@ -73,10 +66,8 @@ public class BlockManager : MonoBehaviour
             }
         }
 
-        BlockMeta meta = new BlockMeta(dataHandler.GetBlockCount());
-
-        dataHandler.AddBlock(block);
-        metaHandler.AddMetadata(meta);
+        int blockIndex = dataHandler.AddBlock(block);
+        metaHandler.AddMetadata(new BlockMeta(blockIndex));
     }
 
     public void LoadBlockToScene(int index)
@@ -102,6 +93,8 @@ public class BlockManager : MonoBehaviour
                 }
             }
         }
+
+        selectedIndex = index;
     }
 
     public void LoadBlockToScene(string blockName)
