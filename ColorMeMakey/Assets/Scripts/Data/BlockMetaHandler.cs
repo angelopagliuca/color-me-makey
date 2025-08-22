@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BlockMetaHandler
@@ -54,6 +56,15 @@ public class BlockMetaHandler
     }
 
     // Find metadata by block name (returns first match or null)
+    public BlockMeta GetMetadataByIndex(int index)
+    {
+        if (metadataList == null)
+            LoadMetadata();
+
+        return metadataList.blocks.Find(meta => int.Equals(meta.index, index));
+    }
+
+    // Find metadata by block name (returns first match or null)
     public BlockMeta GetMetadataByName(string name)
     {
         if (metadataList == null)
@@ -69,5 +80,17 @@ public class BlockMetaHandler
             LoadMetadata();
 
         return metadataList.blocks.AsReadOnly();
+    }
+
+    public void DeleteMetadata(int index)
+    {
+        metadataList.blocks.RemoveAt(index);
+
+        foreach (BlockMeta meta in metadataList.blocks)
+        {
+            if (meta.index > index) meta.index -= 1;
+        }
+
+        SaveMetadata();
     }
 }

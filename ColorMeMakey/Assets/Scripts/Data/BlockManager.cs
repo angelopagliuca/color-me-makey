@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,14 +12,24 @@ public class BlockManager : MonoBehaviour
     [HideInInspector]
     public BlockMetaHandler metaHandler;
 
-    public int selectedIndex = -1;
+    [SerializeField] IntVariable selectedIndex;
+    [SerializeField] StringVariable selectedName;
+
+    [SerializeField] IntEvent LoadBlockEvent;
+    [SerializeField] StringEvent SaveBlockEvent;
+    [SerializeField] IntEvent DeleteBlockEvent;
 
     private void Awake()
     {
         dataHandler = new BlockDataHandler();
         metaHandler = new BlockMetaHandler();
 
-        selectedIndex = -1;
+        selectedIndex.Value = -1;
+        selectedName.Value = "New Block";
+
+        LoadBlockEvent.RegisterListener(LoadBlockToScene);
+        SaveBlockEvent.RegisterListener(SaveCurrentBlock);
+        DeleteBlockEvent.RegisterListener(DeleteBlock);
     }
 
     public void ResetBlock()
@@ -40,10 +51,11 @@ public class BlockManager : MonoBehaviour
             }
         }
 
-        selectedIndex = -1;
+        selectedIndex.Value = -1;
+        selectedName.Value = "New Block";
     }
 
-    public void SaveCurrentBlock()
+    public void SaveCurrentBlock(string name)
     {
         BlockData block = new BlockData(6, GRIDSIZE*GRIDSIZE);
 
@@ -67,7 +79,9 @@ public class BlockManager : MonoBehaviour
         }
 
         int blockIndex = dataHandler.AddBlock(block);
-        metaHandler.AddMetadata(new BlockMeta(blockIndex));
+        metaHandler.AddMetadata(new BlockMeta(blockIndex, name));
+
+        LoadBlockToScene(blockIndex);
     }
 
     public void LoadBlockToScene(int index)
@@ -94,7 +108,8 @@ public class BlockManager : MonoBehaviour
             }
         }
 
-        selectedIndex = index;
+        selectedIndex.Value = index;
+        selectedName.Value = metaHandler.GetMetadataByIndex(index).name;
     }
 
     public void LoadBlockToScene(string blockName)
@@ -108,5 +123,12 @@ public class BlockManager : MonoBehaviour
         LoadBlockToScene(metadata.index);
     }
 
-    public void DeleteBlockByIndex() { }
+    public void DeleteBlock(int index) 
+    {
+        dataHandler.DeleteBlock(index);
+        metaHandler.DeleteMetadata(index);
+
+        if (index < selectedIndex.Value) selectedIndex.Value -= 1;
+        if (index == selectedIndex.Value) ResetBlock();
+    }
 }

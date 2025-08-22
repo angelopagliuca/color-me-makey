@@ -7,8 +7,10 @@ public class BlockElement : MonoBehaviour, IPointerClickHandler
 {
     public TMP_Text nameText;
 
-    BlockManager blockManager;
     BlockMeta blockMeta;
+
+    [SerializeField] IntEvent LoadBlockEvent;
+    [SerializeField] IntEvent DeleteBlockEvent;
 
     private Graphic btnImg;
 
@@ -17,9 +19,8 @@ public class BlockElement : MonoBehaviour, IPointerClickHandler
         btnImg = GetComponent<Button>().targetGraphic;
     }
 
-    public void InitiateBlockElem(BlockManager manager, BlockMeta meta)
+    public void InitiateBlockElem(BlockMeta meta)
     {
-        blockManager = manager;
         blockMeta = meta;
 
         if (nameText != null)
@@ -30,12 +31,11 @@ public class BlockElement : MonoBehaviour, IPointerClickHandler
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            blockManager.LoadBlockToScene(blockMeta.index);
+            LoadBlockEvent.Raise(blockMeta.index);
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
-            blockManager.DeleteBlockByIndex();
-            Debug.Log($"Delete block: {blockMeta.name}");
+            DeleteBlockEvent.Raise(blockMeta.index);
         }
     }
 
@@ -44,4 +44,6 @@ public class BlockElement : MonoBehaviour, IPointerClickHandler
         if (btnImg != null)
             btnImg.color = newColor;
     }
+
+    public int GetBlockIndex() { return blockMeta.index; }
 }

@@ -125,4 +125,38 @@ public class BlockDataHandler
             IndexFile();
         return lineOffsets.Count;
     }
+
+    public void DeleteBlock(int index)
+    {
+        if (!isIndexed) IndexFile();
+
+        if (index < 0 || index >= lineOffsets.Count)
+        {
+            return;
+        }
+
+        string tempPath = filePath + ".tmp";
+
+        using (var reader = new StreamReader(filePath))
+        using (var writer = new StreamWriter(tempPath, false, Encoding.UTF8))
+        {
+            int currentIndex = 0;
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                if (currentIndex != index)
+                    writer.WriteLine(line);
+
+                currentIndex++;
+            }
+        }
+
+        File.Delete(filePath);
+        File.Move(tempPath, filePath);
+
+        Debug.Log($"Deleted block at index {index}. Remaining blocks: {lineOffsets.Count}");
+
+        // Rebuild offsets
+        IndexFile();
+    }
 }

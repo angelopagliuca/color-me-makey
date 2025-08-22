@@ -136,6 +136,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameText: {fileID: 6966882958936735811}
+  LoadBlockEvent: {fileID: 11400000, guid: 784db1439b89e9a43a3827ff38e6e79b, type: 2}
+  DeleteBlockEvent: {fileID: 11400000, guid: 590d90e35c2bdfe4f90ae96a41a79c27, type: 2}
 --- !u!1 &1616931665107675420
 GameObject:
   m_ObjectHideFlags: 0

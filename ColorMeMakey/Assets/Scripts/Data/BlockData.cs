@@ -52,9 +52,7 @@ public class BlockMeta
     {
         this.index = index;
         createdAt = DateTime.UtcNow.ToString("o");
-        if (name == "") this.name = createdAt;
-        else this.name = name;
-
+        this.name = name + createdAt;
     }
 }
 

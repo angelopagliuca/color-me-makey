@@ -1711,9 +1711,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1938725275}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
+      - m_Target: {fileID: 607261806}
+        m_TargetAssemblyTypeName: SaveUtil, Assembly-CSharp
+        m_MethodName: SavePopupOnOff
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1723,10 +1723,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1404497764}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 607261806}
+        m_TargetAssemblyTypeName: SaveUtil, Assembly-CSharp
+        m_MethodName: ResetSaveInput
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2477,6 +2477,55 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 545590343}
   m_CullTransparentMesh: 1
+--- !u!1 &607261805
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 607261807}
+  - component: {fileID: 607261806}
+  m_Layer: 0
+  m_Name: Utils
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &607261806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607261805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbc393c6144d6364fab9f74ab6d8d87d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popups: {fileID: 1938725275}
+  savepop: {fileID: 1404497764}
+  selectedName: {fileID: 11400000, guid: 3a4bffce8e90fb54caf5dc5873d28c58, type: 2}
+  nameInput: {fileID: 925966083}
+  savedName: {fileID: 11400000, guid: 732144ca701c8f94a9d9deb136d54bdc, type: 2}
+--- !u!4 &607261807
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 607261805}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &609184671
 GameObject:
   m_ObjectHideFlags: 0
@@ -3004,9 +3053,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2094094529}
-        m_TargetAssemblyTypeName: BlockManager, Assembly-CSharp
-        m_MethodName: SaveCurrentBlock
+      - m_Target: {fileID: 11400000, guid: a210ffc88e2e09b45b173c06a1ee8f3c, type: 2}
+        m_TargetAssemblyTypeName: StringEvent, Assembly-CSharp
+        m_MethodName: Raise
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3016,21 +3065,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1404497764}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1938725275}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
+      - m_Target: {fileID: 607261806}
+        m_TargetAssemblyTypeName: SaveUtil, Assembly-CSharp
+        m_MethodName: SavePopupOnOff
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3893,7 +3930,19 @@ MonoBehaviour:
       m_Calls: []
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 732144ca701c8f94a9d9deb136d54bdc, type: 2}
+        m_TargetAssemblyTypeName: StringVariable, Assembly-CSharp
+        m_MethodName: set_Value
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_OnTouchScreenKeyboardStatusChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -5424,6 +5473,7 @@ GameObject:
   - component: {fileID: 1524412462}
   - component: {fileID: 1524412461}
   - component: {fileID: 1524412463}
+  - component: {fileID: 1524412464}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -5505,7 +5555,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockElemPrefab: {fileID: 751568620974541013, guid: 7eac796df9a37b84d8b394a81da5ef2d, type: 3}
   manager: {fileID: 2094094529}
+  selectedIndex: {fileID: 11400000, guid: e7eaf84961015934ab6cb6be2d338c82, type: 2}
   selectedColor: {r: 0.2901961, g: 0.43529412, b: 0.15686275, a: 1}
+--- !u!114 &1524412464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524412459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea40803fa58835b44bb87969a714c4d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  variable: {fileID: 11400000, guid: e7eaf84961015934ab6cb6be2d338c82, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1524412463}
+        m_TargetAssemblyTypeName: BlockListUI, Assembly-CSharp
+        m_MethodName: PopulateList
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1525455643
 GameObject:
   m_ObjectHideFlags: 0
@@ -6606,6 +6685,7 @@ GameObject:
   - component: {fileID: 1768845914}
   - component: {fileID: 1768845916}
   - component: {fileID: 1768845915}
+  - component: {fileID: 1768845917}
   m_Layer: 5
   m_Name: Title (TMP)
   m_TagString: Untagged
@@ -6731,6 +6811,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1768845913}
   m_CullTransparentMesh: 1
+--- !u!114 &1768845917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768845913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5eec6cfc9a14c914882e9cc28daf1b10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  variable: {fileID: 11400000, guid: 3a4bffce8e90fb54caf5dc5873d28c58, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1768845915}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1798274492
 GameObject:
   m_ObjectHideFlags: 0
@@ -7676,6 +7784,11 @@ MonoBehaviour:
   - {fileID: 1271537596}
   - {fileID: 887648330}
   - {fileID: 1525455643}
+  selectedIndex: {fileID: 11400000, guid: e7eaf84961015934ab6cb6be2d338c82, type: 2}
+  selectedName: {fileID: 11400000, guid: 3a4bffce8e90fb54caf5dc5873d28c58, type: 2}
+  LoadBlockEvent: {fileID: 11400000, guid: 784db1439b89e9a43a3827ff38e6e79b, type: 2}
+  SaveBlockEvent: {fileID: 11400000, guid: a210ffc88e2e09b45b173c06a1ee8f3c, type: 2}
+  DeleteBlockEvent: {fileID: 11400000, guid: 590d90e35c2bdfe4f90ae96a41a79c27, type: 2}
 --- !u!1 &2138707987
 GameObject:
   m_ObjectHideFlags: 0
@@ -7799,5 +7912,6 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 2094094528}
   - {fileID: 909741578}
+  - {fileID: 607261807}
   - {fileID: 47306384}
   - {fileID: 1149465847}
