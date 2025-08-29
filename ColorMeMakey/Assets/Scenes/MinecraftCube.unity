@@ -5566,10 +5566,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1524412459}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea40803fa58835b44bb87969a714c4d2, type: 3}
+  m_Script: {fileID: 11500000, guid: a276df5c3cf0b3a49bc1612291131014, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  variable: {fileID: 11400000, guid: e7eaf84961015934ab6cb6be2d338c82, type: 2}
+  Event: {fileID: 11400000, guid: 9807277904d500a4aa4a14e3c804898b, type: 2}
   Response:
     m_PersistentCalls:
       m_Calls:
@@ -7789,6 +7789,7 @@ MonoBehaviour:
   LoadBlockEvent: {fileID: 11400000, guid: 784db1439b89e9a43a3827ff38e6e79b, type: 2}
   SaveBlockEvent: {fileID: 11400000, guid: a210ffc88e2e09b45b173c06a1ee8f3c, type: 2}
   DeleteBlockEvent: {fileID: 11400000, guid: 590d90e35c2bdfe4f90ae96a41a79c27, type: 2}
+  RefreshBlocksEvent: {fileID: 11400000, guid: 9807277904d500a4aa4a14e3c804898b, type: 2}
 --- !u!1 &2138707987
 GameObject:
   m_ObjectHideFlags: 0

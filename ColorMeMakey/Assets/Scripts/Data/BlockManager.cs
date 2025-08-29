@@ -18,6 +18,7 @@ public class BlockManager : MonoBehaviour
     [SerializeField] IntEvent LoadBlockEvent;
     [SerializeField] StringEvent SaveBlockEvent;
     [SerializeField] IntEvent DeleteBlockEvent;
+    [SerializeField] VoidEvent RefreshBlocksEvent;
 
     private void Awake()
     {
@@ -53,6 +54,8 @@ public class BlockManager : MonoBehaviour
 
         selectedIndex.Value = -1;
         selectedName.Value = "New Block";
+
+        RefreshBlocksEvent.Raise();
     }
 
     public void SaveCurrentBlock(string name)
@@ -110,6 +113,8 @@ public class BlockManager : MonoBehaviour
 
         selectedIndex.Value = index;
         selectedName.Value = metaHandler.GetMetadataByIndex(index).name;
+
+        RefreshBlocksEvent.Raise();
     }
 
     public void LoadBlockToScene(string blockName)
@@ -128,7 +133,11 @@ public class BlockManager : MonoBehaviour
         dataHandler.DeleteBlock(index);
         metaHandler.DeleteMetadata(index);
 
-        if (index < selectedIndex.Value) selectedIndex.Value -= 1;
         if (index == selectedIndex.Value) ResetBlock();
+        else
+        {
+            if (index < selectedIndex.Value) selectedIndex.Value -= 1;
+            RefreshBlocksEvent.Raise();
+        }
     }
 }

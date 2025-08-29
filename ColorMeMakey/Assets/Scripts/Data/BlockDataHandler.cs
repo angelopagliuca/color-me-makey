@@ -31,29 +31,42 @@ public class BlockDataHandler
     {
         lineOffsets.Clear();
 
-        // First line always starts at 0
-        if (new FileInfo(filePath).Length > 0)
-            lineOffsets.Add(0);
-
-        using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+        using (var fs = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Read, FileShare.Read))
         {
-            long position = 0;
-            int b;
+            // Detect UTF-8 BOM
+            int bomLen = 0;
+            if (fs.Length >= 3)
+            {
+                int b0 = fs.ReadByte();
+                int b1 = fs.ReadByte();
+                int b2 = fs.ReadByte();
+                if (b0 == 0xEF && b1 == 0xBB && b2 == 0xBF)
+                    bomLen = 3;
+            }
 
+            // Start scanning after BOM (if present)
+            fs.Seek(bomLen, SeekOrigin.Begin);
+
+            // If there's any content after BOM, first line starts at bomLen
+            if (fs.Length > bomLen)
+                lineOffsets.Add(bomLen);
+
+            long position = bomLen;
+            int b;
             while ((b = fs.ReadByte()) != -1)
             {
                 if (b == '\n')
                 {
-                    // Start of next line is right after newline
-                    if (position + 1 < fs.Length)
-                        lineOffsets.Add(position + 1);
+                    long nextPos = position + 1;
+                    if (nextPos < fs.Length) // don't add a phantom line at EOF
+                        lineOffsets.Add(nextPos);
                 }
                 position++;
             }
         }
 
         isIndexed = true;
-        Debug.Log($"Indexed {lineOffsets.Count} blocks in \"blocks.jsonl\"");
+        Debug.Log($"Indexed {lineOffsets.Count} blocks in \"blocks.jsonl\" (BOM-aware).");
     }
 
     // Append a new block JSON line and update offsets
@@ -61,8 +74,10 @@ public class BlockDataHandler
     {
         string json = JsonUtility.ToJson(block, false);
 
+        var utf8NoBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
+
         using (FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.Read))
-        using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
+        using (StreamWriter sw = new StreamWriter(fs, utf8NoBom))
         {
             long offset = fs.Position;   // <-- this is where the new line starts
 
@@ -137,14 +152,16 @@ public class BlockDataHandler
 
         string tempPath = filePath + ".tmp";
 
+        var utf8NoBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
+
         using (var reader = new StreamReader(filePath))
-        using (var writer = new StreamWriter(tempPath, false, Encoding.UTF8))
+        using (var writer = new StreamWriter(tempPath, false, utf8NoBom))
         {
             int currentIndex = 0;
             string line;
             while ((line = reader.ReadLine()) != null)
             {
-                if (currentIndex != index)
+                if (!string.IsNullOrWhiteSpace(line) && currentIndex != index)
                     writer.WriteLine(line);
 
                 currentIndex++;
